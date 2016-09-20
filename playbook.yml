@@ -1,0 +1,6 @@
+---
+  - name: Install i3
+    hosts: all
+    become_user: root
+    roles:
+      - role: i3

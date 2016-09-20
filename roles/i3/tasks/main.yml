@@ -1,0 +1,4 @@
+---
+
+- name: main
+  shell: echo "hello, world!"
