@@ -1,4 +1,7 @@
 ---
 
-- name: main
-  shell: echo "hello, world!"
+- include: install.yml
+  when: action == "install"
+
+- include: uninstall.yml
+  when: action == "uninstall"

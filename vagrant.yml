@@ -3,7 +3,7 @@
     hosts: all
     become: yes
     vars:
-      - vars/defaults.yml
-      - vars/vars.yml
+      remote_user: vagrant
+      action: install
     roles:
       - i3
