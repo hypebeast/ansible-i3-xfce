@@ -1,25 +1,36 @@
 ---
 # Install i3-wm
 
-- name: Ensure i3-wm is installed
-  apt: pkg={{item}} force=yes state=installed
+- name: Ensure packages are installed
+  apt: pkg={{item}} update_cache=yes force=yes state=installed
   with_items:
-   - i3-wm
+    - xfce4
+    - i3-wm
 
 - name: Ensure autostart files
   copy: src={{item}} dest=/home/{{remote_user}}/.config/autostart/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
   with_fileglob:
-   - autostart/*
+    - autostart/*
 
-- name: Ensure empty cache
+- name: Delete session cache
   file: path=/home/{{remote_user}}/.cache/sessions state=absent
+
+- name: Set permissions
   file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml state=directory owner={{remote_user}} group={{remote_user}} mode='u=rw'
 
-- name: Apply xfce session patch
+- name: Copy session config
   shell: cp /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml /home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml
+
+- name: Set permissions
   file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml owner={{remote_user}}  group={{remote_user}} mode='u=rw'
+
+- name: Ensure /tmp directory
   file: path=/tmp state=directory
+
+- name: Ensure patch
   copy: src=xfce/xfce4-session.xml.patch dest=/tmp/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
+
+- name: Apply patch
   patch:
     remote_src=True
     src=/tmp/xfce4-session.xml.patch

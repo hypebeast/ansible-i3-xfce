@@ -7,3 +7,5 @@
       - vars/vars.yml
     roles:
       - i3
+      - themes
+      - utilities

@@ -1,0 +1,58 @@
+---
+
+- name: Ensure additional apt repositories
+  apt_repository: repo='{{item}}' state=present update_cache=true
+  with_items:
+    - ppa:aacebedo/libi3ipc-glib
+    - ppa:aacebedo/xfce4-i3-workspaces-plugin
+    - ppa:aacebedo/fasd
+    - ppa:nilarimogard/webupd8
+
+- name: Ensure packages
+  apt: pkg={{item}} force=yes state=installed
+  with_items:
+    - albert
+    - aptitude
+    - libqt5libqgtk2
+    - libqt5svg5
+    - python-dev
+    - conky
+    - wget
+    - cmake
+    - build-essential
+    - python-pip
+    - dmenu
+    - feh
+    - git
+    - python-software-properties
+    - dtrx
+    - libi3ipc-glib
+    - xfce4-i3-workspaces-plugin
+
+- name: Get j4-dmenu-desktop
+  get_url: url=https://github.com/enkore/j4-dmenu-desktop/archive/r2.12.tar.gz dest=/tmp/j4-desktop-menu.tar.gz
+
+- name: Unpack j4-dmenu-desktop
+  shell: tar xvzf j4-desktop-menu.tar.gz chdir=/tmp
+
+- name: Compile and install j4-dmenu-desktop
+  shell: cmake ./ && make install chdir=/tmp/j4-dmenu-desktop-r2.12
+
+- name: Ensure required Python libraries
+  pip: name={{item}} state=present
+  with_items:
+    - pathlib
+    - psutil
+    - thefuck
+    - i3-py
+    - quickswitch-i3
+    - cheat
+
+- name: Ensure Albert config directory
+  file: dest=/home/{{remote_user}}/.config/albert owner={{remote_user}} group={{remote_user}} state=directory
+
+- name: Ensure Albert config
+  copy: src=albert.conf dest=/home/{{remote_user}}/.config/albert/albert.conf owner={{remote_user}} group={{remote_user}} mode='u=rw'
+
+- name: Set permissions
+  file: dest=/home/{{remote_user}}/.config recurse=true mode="u=rwX"

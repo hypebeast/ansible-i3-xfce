@@ -1,0 +1,99 @@
+---
+
+- name: Ensure required apt repositories
+  apt_repository: repo='{{item}}' state=present update_cache=yes
+  with_items:
+    - ppa:numix/ppa
+
+- name: Ensure packages
+  apt: pkg={{item}} force=yes state=installed
+  with_items:
+   - xfce4
+   - lightdm-gtk-greeter
+   - fonts-powerline
+   - numix-gtk-theme
+   - numix-icon-theme-circle
+   - compton
+   - feh
+   - conky
+   - xfce4-terminal
+
+- name: Ensure autostart
+  copy: src={{item}} dest=/home/{{remote_user}}/.config/autostart/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
+  with_fileglob:
+   - autostart/*
+
+- name: Ensure i3 config directory
+  file: path=/home/{{remote_user}}/.i3 state=directory
+
+- name: Ensure i3 config
+  copy: src={{item}} dest=/home/{{remote_user}}/.i3/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
+  with_fileglob:
+   - i3/*
+
+- name: Set permissions
+  file: path=/home/{{remote_user}}/.i3 recurse='yes' owner={{remote_user}} group={{remote_user}} mode='u=rwX'
+
+- name: Ensure conky config directory
+  file: path=/home/{{remote_user}}/.conky state=directory
+
+- name: Ensure conky config
+  copy: src={{item}} dest=/home/{{remote_user}}/.conky/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
+  with_fileglob:
+   - conky/*
+
+- name: Set permissions
+  file: path=/home/{{remote_user}}/.conky recurse='yes' owner={{remote_user}} group={{remote_user}} mode='u=rwX'
+
+- name: Ensure compton config
+  copy: src=compton/compton.conf dest=/home/{{remote_user}}/.compton.conf owner={{remote_user}} group={{remote_user}} mode='u=rw'
+
+- name: Set permissions
+  file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml state=directory owner={{remote_user}} group={{remote_user}} mode='u=rw'
+
+- name: Ensure xfce perchannel config
+  shell: cp -n /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml /home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml
+
+- name: Set permissions
+  file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml owner={{remote_user}}  group={{remote_user}} mode='u=rw'
+
+- name: Set theme name
+  lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml regexp=".*name=\"ThemeName\".*" line="<property name=\"ThemeName\" type=\"string\" value=\"Numix\"/>"
+
+- name: Set icon theme name
+  lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml regexp=".*name=\"IconThemeName\".*" line="<property name=\"IconThemeName\" type=\"string\" value=\"Numix-Circle\"/>"
+
+- name: Ensure xfce4-notifyd config
+  copy: src=xfce/xfce4-notifyd.xml dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-notifyd.xml owner={{remote_user}}  group={{remote_user}} mode='u=rw'
+
+- name: Set greeter
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf line='[greeter]'
+
+- name: Set lightdm theme
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^theme-name.*" line='theme-name=Numix' insertafter="[greeter]"  state=present
+
+- name: Set lightdm icon theme
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^icon-theme-name.*" line='icon-theme-name=Numix-Circle' insertafter="[greeter]" state=present
+
+- name: Set lightdm background
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^background.*" line='background=/usr/share/backgrounds/Numix_Lightbulb.png' insertafter="[greeter]" state=present
+
+- name: Disable user background
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^user-background.*" line='user-background = false' insertafter="[greeter]" state=present
+
+- name: Ensure fonts
+  copy: src={{item}} dest=/home/{{remote_user}}/.fonts/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
+  with_fileglob:
+    - fonts/*
+
+- name: Set permissions for fonts
+  file: path=/home/{{remote_user}}/.fonts recurse='yes' owner={{remote_user}} group={{remote_user}} mode='u=rwX'
+
+- name: Set permissions for config
+  file: path=/home/{{remote_user}}/.config recurse='yes' owner={{remote_user}} group={{remote_user}} mode='u=rwX'
+
+- name: Ensure background image
+  copy: src=xfce/Numix_Lightbulb.png dest=/usr/share/backgrounds/Numix_Lightbulb.png  owner=root  group=root mode='a=r'
+
+- name: Set permissions
+  file: path=/usr/share/backgrounds/Numix_Lightbulb.png owner={{remote_user}} group={{remote_user}} mode='u=rw'

@@ -7,3 +7,5 @@
       action: install
     roles:
       - i3
+      - themes
+      - utilities
