@@ -28,6 +28,8 @@
     - dtrx
     - libi3ipc-glib
     - xfce4-i3-workspaces-plugin
+    - i3status
+    - i3blocks
 
 - name: Get j4-dmenu-desktop
   get_url: url=https://github.com/enkore/j4-dmenu-desktop/archive/r2.12.tar.gz dest=/tmp/j4-desktop-menu.tar.gz

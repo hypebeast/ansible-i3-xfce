@@ -51,7 +51,7 @@
 - name: Set permissions
   file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml state=directory owner={{remote_user}} group={{remote_user}} mode='u=rw'
 
-- name: Ensure xfce perchannel config
+- name: Ensure xfce settings
   shell: cp -n /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml /home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml
 
 - name: Set permissions
