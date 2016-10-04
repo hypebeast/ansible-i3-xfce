@@ -18,6 +18,7 @@
     - python-dev
     - conky
     - wget
+    - curl
     - cmake
     - build-essential
     - python-pip
@@ -48,6 +49,7 @@
     - thefuck
     - i3-py
     - quickswitch-i3
+    - py3status
     - cheat
 
 - name: Ensure Albert config directory
@@ -55,6 +57,3 @@
 
 - name: Ensure Albert config
   copy: src=albert.conf dest=/home/{{remote_user}}/.config/albert/albert.conf owner={{remote_user}} group={{remote_user}} mode='u=rw'
-
-- name: Set permissions
-  file: dest=/home/{{remote_user}}/.config recurse=true mode="u=rwX"

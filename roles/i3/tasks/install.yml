@@ -15,7 +15,7 @@
 - name: Delete session cache
   file: path=/home/{{remote_user}}/.cache/sessions state=absent
 
-- name: Set permissions
+- name: Set permissions for XFCE perchannel config directory
   file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml state=directory owner={{remote_user}} group={{remote_user}} mode='u=rw'
 
 - name: Copy session config
@@ -27,7 +27,7 @@
 - name: Ensure /tmp directory
   file: path=/tmp state=directory
 
-- name: Ensure patch
+- name: Ensure patch for xfce4-session.xml
   copy: src=xfce/xfce4-session.xml.patch dest=/tmp/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
 
 - name: Apply patch
@@ -39,5 +39,13 @@
 - name: Hide xfwm4-settings manager
   lineinfile: dest=/usr/share/applications/xfce-wm-settings.desktop state=present line="Hidden=true"
 
-- name: Ensure correct permissions
-  file: path=/home/{{remote_user}}/.config recurse='yes' owner={{remote_user}} group={{remote_user}} mode='u=rwX'
+- name: Ensure i3 config directory
+  file: path=/home/{{remote_user}}/.i3 state=directory
+
+- name: Ensure i3 config
+  copy: src={{item}} dest=/home/{{remote_user}}/.i3/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
+  with_fileglob:
+   - i3/*
+
+- name: Set permissions for i3 config directory
+  file: path=/home/{{remote_user}}/.i3 recurse='yes' owner={{remote_user}} group={{remote_user}} mode='u=rwX'
