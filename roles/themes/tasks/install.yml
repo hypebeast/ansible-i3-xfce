@@ -1,4 +1,5 @@
 ---
+# Install and setup the i3 and lightdm theme.
 
 - name: Ensure required apt repositories
   apt_repository: repo='{{item}}' state=present update_cache=yes
@@ -46,16 +47,16 @@
 - name: Set permissions
   file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml owner={{remote_user}}  group={{remote_user}} mode='u=rw'
 
-- name: Set theme name
+- name: Set xfce4 theme name
   lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml regexp=".*name=\"ThemeName\".*" line="<property name=\"ThemeName\" type=\"string\" value=\"Numix\"/>"
 
-- name: Set icon theme name
+- name: Set xfce4 icon theme name
   lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml regexp=".*name=\"IconThemeName\".*" line="<property name=\"IconThemeName\" type=\"string\" value=\"Numix-Circle\"/>"
 
 - name: Ensure xfce4-notifyd config
   copy: src=xfce/xfce4-notifyd.xml dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-notifyd.xml owner={{remote_user}}  group={{remote_user}} mode='u=rw'
 
-- name: Set greeter
+- name: Set lightdm greeter
   lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf line='[greeter]'
 
 - name: Set lightdm theme
@@ -67,7 +68,7 @@
 - name: Set lightdm background
   lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^background.*" line='background=/usr/share/backgrounds/Numix_Lightbulb.png' insertafter="[greeter]" state=present
 
-- name: Disable user background
+- name: Disable lightdm user background
   lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^user-background.*" line='user-background = false' insertafter="[greeter]" state=present
 
 - name: Ensure fonts

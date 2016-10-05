@@ -1,0 +1,67 @@
+---
+# Uninstall all theme releated packages and configs
+
+- name: Removed apt repositories
+  apt_repository: repo='{{item}}' state=absent update_cache=yes
+  with_items:
+    - ppa:numix/ppa
+
+- name: Uninstall packages
+  apt: pkg={{item}} force=yes state=absent
+  with_items:
+   - lightdm-gtk-greeter
+   - fonts-powerline
+   - numix-gtk-theme
+   - numix-icon-theme-circle
+   - compton
+   - feh
+   - conky
+
+- name: Remove autostart entries
+  file: src={{item}} dest=/home/{{remote_user}}/.config/autostart/ state=absent
+  with_fileglob:
+   - autostart/*
+
+- name: Remove conky config
+  file: path=/home/{{remote_user}}/.conky state=absent
+
+- name: Remove compton config
+  file: path=/home/{{remote_user}}/.compton.conf state=absent
+
+- name: Restore xfce4 theme
+  lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml regexp=".*name=\"ThemeName\".*" line="<property name=\"ThemeName\" type=\"string\" value=\"Greybird\"/>"
+
+- name: Restore xfce4 icon theme
+  lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml regexp=".*name=\"IconThemeName\".*" line="<property name=\"IconThemeName\" type=\"empty\"/>"
+
+- name: Reset notification location
+  lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-notifyd.xml regexp=".*notify-location.*" line="<property name=\"notify-location\" type=\"uint\" value=\"3\"/>"
+
+- name: Restore notification theme
+  lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-notifyd.xml regexp=".*theme.*" line="<property name=\"theme\" type=\"string\" value=\"Greybird\"/>"
+
+- name: Restore notification theme name
+  lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml regexp=".*name=\"ThemeName\".*" line="<property name=\"ThemeName\" type=\"string\" value=\"Greybird\"/>"
+
+- name: Restore notification icon theme
+  lineinfile: dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml regexp=".*name=\"IconThemeName\".*" line="<property name=\"IconThemeName\" type=\"string\" value=\"elementary-xfce-dark\"/>"
+
+- name: Restore lightdm theme
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^theme-name.*" line="theme-name=Greybird" state=present
+
+- name: Restore lightdm icon theme
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^icon-theme-name.*" line="icon-theme-name=elementary-xfce-dark"  state=present
+
+- name: Remove lightdm background
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^background.*" state=absent
+
+- name: Remove lightdm user background
+  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf regexp="^user-background.*" state=absent
+
+- name: Remove fonts
+  file: path=/home/{{remote_user}}/.fonts/{{ item }} state=absent
+  with_fileglob:
+    - fonts/*
+
+- name: Remove background
+  file: path=/usr/share/backgrounds/Numix_Lightbulb.png owner={{remote_user}} group={{remote_user}} mode='u=rw'

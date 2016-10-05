@@ -21,5 +21,5 @@
 - name: Enable xfce4-wm
   lineinfile: dest=/usr/share/applications/xfce-wm-settings.desktop state=absent line="Hidden=true"
 
-- name: Delete i3 config directory
+- name: Remove i3 config
   file: path=/home/{{remote_user}}/.i3 state=absent

@@ -1,7 +1,7 @@
 ---
 # Install i3-wm
 
-- name: Ensure packages are installed
+- name: Ensure i3 and xfce4 are installed
   apt: pkg={{item}} update_cache=yes force=yes state=installed
   with_items:
     - xfce4
