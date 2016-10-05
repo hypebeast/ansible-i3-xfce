@@ -1,0 +1,49 @@
+---
+# Uninstall utilities.
+
+- name: Remove additional apt repositories
+  apt_repository: repo='{{item}}' state=absent
+  with_items:
+    - ppa:aacebedo/libi3ipc-glib
+    - ppa:aacebedo/xfce4-i3-workspaces-plugin
+    - ppa:aacebedo/fasd
+    - ppa:nilarimogard/webupd8
+
+- name: Remove packages
+  apt: pkg={{item}} force=yes state=absent
+  with_items:
+    - albert
+    - aptitude
+    - libqt5libqgtk2
+    - libqt5svg5
+    - python-dev
+    - conky
+    - wget
+    - curl
+    - cmake
+    - build-essential
+    - python-pip
+    - dmenu
+    - feh
+    - git
+    - python-software-properties
+    - dtrx
+    - libi3ipc-glib
+    - xfce4-i3-workspaces-plugin
+    - i3status
+    - i3blocks
+    - fasd
+
+- name: Remove Python libraries
+  pip: name={{item}} state=absent
+  with_items:
+    - pathlib
+    - psutil
+    - thefuck
+    - i3-py
+    - quickswitch-i3
+    - py3status
+    - cheat
+
+- name: Remove Albert config
+  file: dest=/home/{{remote_user}}/.config/albert state=absent
