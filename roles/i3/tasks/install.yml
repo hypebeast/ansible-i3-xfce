@@ -18,10 +18,10 @@
 - name: Set permissions for XFCE perchannel config directory
   file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml state=directory owner={{remote_user}} group={{remote_user}} mode='u=rw'
 
-- name: Copy session config
+- name: Copy xfce4 session config
   shell: cp /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml /home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml
 
-- name: Set permissions
+- name: Set permissions for xfce4 session config
   file: path=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml owner={{remote_user}}  group={{remote_user}} mode='u=rw'
 
 - name: Ensure /tmp directory
@@ -36,7 +36,7 @@
     src=/tmp/xfce4-session.xml.patch
     dest=/home/{{remote_user}}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml
 
-- name: Hide xfwm4-settings manager
+- name: Hide xfce-wm
   lineinfile: dest=/usr/share/applications/xfce-wm-settings.desktop state=present line="Hidden=true"
 
 - name: Ensure i3 config directory
