@@ -10,7 +10,7 @@
     - ppa:nilarimogard/webupd8
 
 - name: Ensure packages
-  apt: pkg={{item}} force=yes state=installed
+  apt: pkg={{item}} update_cache=true force=yes state=installed
   with_items:
     - albert
     - aptitude
