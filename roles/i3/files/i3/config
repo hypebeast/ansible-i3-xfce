@@ -38,7 +38,7 @@ bindsym $mod+q kill
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 #bindsym mod1+space exec --no-startup-id j4-dmenu-desktop [--dmenu="dmenu -i"] [--term="gnome-terminal"]
 
-bindsym mod1+space exec --no-startup-id j4-dmenu-desktop  j4-dmenu-desktop --dmenu="dmenu.xft -b -i -nb '#000000' -nf '#CFCFCF' -sb '#D53C0A' -sf '#FFFFFF' -fn 'Droid Sans:pixelsize=13'" --term="gnome-terminal"
+bindsym $mod+space exec --no-startup-id j4-dmenu-desktop  j4-dmenu-desktop --dmenu="dmenu.xft -b -i -nb '#000000' -nf '#CFCFCF' -sb '#D53C0A' -sf '#FFFFFF' -fn 'Droid Sans:pixelsize=13'" --term="gnome-terminal"
 
 # change focus
 bindsym $mod+j focus left
@@ -82,7 +82,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -169,7 +169,7 @@ bindsym $mod+r mode "resize"
 #}
 
 bindsym $mod+End exec  ~/.i3/quickswitch.py -e
-bindsym $mod+Home exec  ~/.i3/quickswitch.py --dmenu="dmenu.xft -b -i -l 20 -nb '#000000' -nf '#CFCFCF' -sb '#D53C0A'  -sf '#FFFFFF' -fn 'Droid Sans:pixelsize=13'"
+bindsym $mod+Home exec  ~/.i3/quickswitch.py --dmenu="dmenu -b -i -l 20 -nb '#000000' -nf '#CFCFCF' -sb '#D53C0A'  -sf '#FFFFFF' -fn 'Droid Sans:pixelsize=13'"
 
 client.focused          #bc3220 #bc3220 #EEEEEE #2D2D2D
 client.focused_inactive #999999 #999999 #EEEEEE #2D2D2D

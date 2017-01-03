@@ -30,7 +30,7 @@
 - name: Ensure patch for xfce4-session.xml
   copy: src=xfce/xfce4-session.xml.patch dest=/tmp/ owner={{remote_user}} group={{remote_user}} mode='u=rw'
 
-- name: Apply patch
+- name: Apply patch for xfce4-session
   patch:
     remote_src=True
     src=/tmp/xfce4-session.xml.patch

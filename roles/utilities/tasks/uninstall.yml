@@ -44,6 +44,3 @@
     - quickswitch-i3
     - py3status
     - cheat
-
-- name: Remove Albert config
-  file: dest=/home/{{remote_user}}/.config/albert state=absent

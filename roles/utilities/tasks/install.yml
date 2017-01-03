@@ -12,7 +12,6 @@
 - name: Ensure packages
   apt: pkg={{item}} update_cache=true force=yes state=installed
   with_items:
-    - albert
     - aptitude
     - libqt5libqgtk2
     - libqt5svg5
@@ -52,9 +51,3 @@
     - quickswitch-i3
     - py3status
     - cheat
-
-- name: Ensure Albert config directory
-  file: dest=/home/{{remote_user}}/.config/albert owner={{remote_user}} group={{remote_user}} state=directory
-
-- name: Ensure Albert config
-  copy: src=albert.conf dest=/home/{{remote_user}}/.config/albert/albert.conf owner={{remote_user}} group={{remote_user}} mode='u=rw'

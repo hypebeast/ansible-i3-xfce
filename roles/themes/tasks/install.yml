@@ -83,7 +83,7 @@
   file: path=/home/{{remote_user}}/.config recurse='yes' owner={{remote_user}} group={{remote_user}} mode='u=rwX'
 
 - name: Ensure background image
-  copy: src=xfce/Numix_Lightbulb.png dest=/usr/share/backgrounds/Numix_Lightbulb.png  owner=root  group=root mode='a=r'
+  copy: src=xfce/girl_face_explosion.jpg dest=/usr/share/backgrounds/girl_face_explosion.jpg  owner=root  group=root mode='a=r'
 
 - name: Set permissions
-  file: path=/usr/share/backgrounds/Numix_Lightbulb.png owner={{remote_user}} group={{remote_user}} mode='u=rw'
+  file: path=/usr/share/backgrounds/girl_face_explosion.jpg owner={{remote_user}} group={{remote_user}} mode='u=rw'

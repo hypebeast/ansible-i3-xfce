@@ -64,4 +64,4 @@
     - fonts/*
 
 - name: Remove background
-  file: path=/usr/share/backgrounds/Numix_Lightbulb.png owner={{remote_user}} group={{remote_user}} mode='u=rw'
+  file: path=/usr/share/backgrounds/girl_face_explosion.jpg owner={{remote_user}} group={{remote_user}} mode='u=rw'
